@@ -50,12 +50,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
-  .state('tab.receive', {
-      url: '/receive',
+  .state('tab.chats', {
+      url: '/chats',
       views: {
-        'tab-receive': {
-          templateUrl: 'tab-receive.html',
-          controller: 'receiveCtrl'
+        'tab-chats': {
+          templateUrl: 'tab-chats.html',
+          controller: 'ChatsCtrl'
         }
       }
     })
@@ -69,12 +69,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     })
 
-  .state('tab.send', {
-    url: '/send',
+  .state('tab.account', {
+    url: '/account',
     views: {
-      'tab-send': {
-        templateUrl: 'tab-send.html',
-        controller: 'sendCtrl'
+      'tab-account': {
+        templateUrl: 'tab-account.html',
+        controller: 'AccountCtrl'
       }
     }
   });
@@ -82,4 +82,44 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/dash');
 
+})
+
+// All this does is allow the message
+// to be sent when you tap return
+.directive('input', function($timeout) {
+  return {
+    restrict: 'E',
+    scope: {
+      'returnClose': '=',
+      'onReturn': '&',
+      'onFocus': '&',
+      'onBlur': '&'
+    },
+    link: function(scope, element, attr) {
+      element.bind('focus', function(e) {
+        if (scope.onFocus) {
+          $timeout(function() {
+            scope.onFocus();
+          });
+        }
+      });
+      element.bind('blur', function(e) {
+        if (scope.onBlur) {
+          $timeout(function() {
+            scope.onBlur();
+          });
+        }
+      });
+      element.bind('keydown', function(e) {
+        if (e.which == 13) {
+          if (scope.returnClose) element[0].blur();
+          if (scope.onReturn) {
+            $timeout(function() {
+              scope.onReturn();
+            });
+          }
+        }
+      });
+    }
+  }
 });

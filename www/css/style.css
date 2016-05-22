@@ -48,3 +48,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
     background-color:#D1C1E0;
     color: rebeccapurple;
 }
+
+.bar-stable .button.button-clear {
+    color: white;
+}
